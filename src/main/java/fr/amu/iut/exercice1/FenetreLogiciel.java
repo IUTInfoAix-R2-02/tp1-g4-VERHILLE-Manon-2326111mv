@@ -5,10 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -17,7 +14,7 @@ public class FenetreLogiciel extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Création d'un conteneur principal
-        VBox vbox = new VBox();
+        BorderPane borderPane = new BorderPane();
 
         // Création du conteneur correspondant à la ligne de contrôle au dessus du tableau
         HBox topMenu= new HBox();
@@ -40,20 +37,23 @@ public class FenetreLogiciel extends Application {
         MenuBar menuBar = new MenuBar(menu1, menu2, menu3);
 
         topMenu.getChildren().addAll(menuBar);
-
-        // Création milieu
-        HBox milieu = new HBox();
+        borderPane.setTop(topMenu);
 
         // Création de la zone Boutons
         VBox boutons = new VBox();
         boutons.setAlignment(Pos.CENTER);
-        Label l1 = new Label("Boutons");
+        Label l1 = new Label("Boutons :");
+        Text vide1 = new Text();
         Button bouton1 = new Button("Bouton 1");
+        Text vide2 = new Text();
         Button bouton2 = new Button("Bouton 2");
+        Text vide3 = new Text();
         Button bouton3 = new Button("Bouton 3");
 
-        boutons.getChildren().addAll(l1, bouton1, bouton2, bouton3);
+        boutons.getChildren().addAll(l1, vide1, bouton1, vide2, bouton2, vide3, bouton3);
         boutons.setPadding(new Insets(Pos.CENTER.ordinal(), Pos.CENTER.ordinal(), Pos.CENTER.ordinal(), Pos.CENTER.ordinal()));
+
+        borderPane.setLeft(boutons);
 
         // Création de la ligne de séparation
         Separator sep1 = new Separator();
@@ -79,15 +79,20 @@ public class FenetreLogiciel extends Application {
         formulaire.add(password, 0, 2);
         formulaire.add(champ3, 1, 2);
 
+        HBox boutons2 = new HBox();
+        boutons2.setAlignment(Pos.CENTER);
         Button submit = new Button("Submit");
+        Text vide4 = new Text("    ");
         Button cancel = new Button("Cancel");
 
-        connexion.getChildren().addAll(formulaire, submit, cancel);
+        boutons2.getChildren().addAll(submit, vide4, cancel);
+
+        connexion.getChildren().addAll(formulaire, boutons2);
+
+        borderPane.setCenter(connexion);
 
         // Création de la ligne de séparation
         Separator sep2 = new Separator();
-
-        milieu.getChildren().addAll(boutons, connexion);
 
         // Création du bandeau en bas de la fenêtre
         HBox basPage = new HBox();
@@ -96,17 +101,19 @@ public class FenetreLogiciel extends Application {
 
         basPage.getChildren().addAll(text);
 
-        // Ajout des contrôleurs au conteneur principal
+        borderPane.setBottom(basPage);
+
+        /*// Ajout des contrôleurs au conteneur principal
         vbox.getChildren().addAll(
                 topMenu,
                 milieu,
                 sep1,
                 sep2,
                 basPage
-        );
+        );*/
 
         // Ajout du conteneur à la scene
-        Scene scene = new Scene(vbox);
+        Scene scene = new Scene(borderPane);
 
         // Ajout de la scene à la fenêtre et changement de ses paramètres (dimensions et titre)
         primaryStage.setScene( scene );
